@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101820">
+  <title>الانضمام إلى نادي أثر</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root{--bg:#101820;--panel:#1b2934;--cyan:#78dafa;--red:#ef5350;--muted:#a9bac5;--white:#f7fbfd}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#1c3442 0,#101820 48%);color:var(--white);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;min-height:100vh;padding:26px 14px}
+    .wrap{max-width:620px;margin:auto}.hero{text-align:center;padding:14px 10px 22px}
+    .logo{width:94px;height:94px;margin:0 auto 10px;display:grid;place-items:center}
+    .brand{font-size:36px;font-weight:900;letter-spacing:2px;color:var(--cyan);margin:0}
+    .tag{color:var(--muted);margin:8px 0 0;font-size:14px}
+    .panel{background:rgba(27,41,52,.96);border:1px solid #30424e;border-radius:22px;padding:22px;box-shadow:0 18px 50px #0005}
+    h1{font-size:24px;text-align:center;margin:0 0 7px}.intro{text-align:center;color:var(--muted);font-size:14px;margin:0 0 24px}
+    .section{color:var(--cyan);font-weight:800;margin:23px 0 14px;padding-bottom:9px;border-bottom:1px solid #344651}
+    label{display:block;font-size:14px;font-weight:700;margin:14px 0 7px}
+    input,textarea{width:100%;border:1px solid #40525e;border-radius:12px;background:#111d26;color:white;padding:13px 14px;font:inherit;font-size:16px;outline:none}
+    input:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #78dafa22}textarea{resize:vertical;min-height:88px}
+    .hint{color:var(--muted);font-size:12px;margin-top:6px}
+    button{width:100%;border:0;border-radius:13px;padding:15px;margin-top:22px;background:linear-gradient(100deg,#48bce8,#78dafa);color:#08202b;font-size:16px;font-weight:900;cursor:pointer}
+    button:disabled{opacity:.55;cursor:not-allowed}.status{display:none;margin-top:15px;padding:13px;border-radius:12px;font-size:14px;line-height:1.6}.status.show{display:block}.ok{background:#153b30;color:#bdf4d9}.err{background:#492525;color:#ffd0d0}
+    footer{text-align:center;color:#8195a2;font-size:12px;margin:20px 0 8px}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <div class="logo" aria-label="شعار أثَر">
+        <svg viewBox="0 0 100 100" width="94" height="94" role="img" aria-label="رمز حصان شطرنج">
+          <path d="M25 83h54M32 75h42l-5-9H39z" fill="none" stroke="#78dafa" stroke-width="4" stroke-linecap="round"/>
+          <path d="M39 65c4-8 3-15-1-22l-5-10 8-3 4-15 17 7 9 14-8 11 3 18z" fill="#78dafa" stroke="#eafaff" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M46 22l2-9 12 5-3 8M58 34l8 4-5 7" fill="none" stroke="#ef5350" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="54" cy="31" r="2.5" fill="#101820"/>
+          <path d="M30 88h40" stroke="#ef5350" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <p class="brand">أثــر</p>
+      <p class="tag">نصنع الفرق، ونترك الأثر.</p>
+    </header>
+    <section class="panel">
+      <h1>كن جزءاً من التغيير</h1>
+      <p class="intro">استمارة الانضمام إلى نادي أثر الجامعي</p>
+      <form id="joinForm">
+        <div class="section">01 — المعلومات الشخصية</div>
+        <label for="first_name">الاسم</label>
+        <input id="first_name" name="first_name" autocomplete="given-name" required maxlength="80" placeholder="أدخل اسمك">
+        <label for="last_name">اللقب</label>
+        <input id="last_name" name="last_name" autocomplete="family-name" required maxlength="80" placeholder="أدخل لقبك">
+
+        <div class="section">02 — اكتشف مواهبك</div>
+        <label for="hobbies">ما هي هوايتك؟</label>
+        <textarea id="hobbies" name="hobbies" required maxlength="2000" placeholder="أخبرنا عن هواياتك واهتماماتك"></textarea>
+        <label for="languages">ما هي اللغات التي تتحدث بها؟</label>
+        <textarea id="languages" name="languages" required maxlength="1000" placeholder="مثلاً: العربية، الفرنسية، الإنجليزية"></textarea>
+
+        <div class="section">03 — ماذا ستضيف إلى أثر؟</div>
+        <label for="contribution">ماذا يمكنك أن تضيف للنادي؟</label>
+        <textarea id="contribution" name="contribution" required maxlength="3000" placeholder="شاركنا أفكارك ومهاراتك وكيف ستساهم معنا"></textarea>
+        <label for="certificates">ما هي الشهادات التي لديك؟</label>
+        <textarea id="certificates" name="certificates" required maxlength="2000" placeholder="إذا لم تكن لديك شهادات، اكتب: لا شيء"></textarea>
+        <p class="hint">جميع الخانات مطلوبة. إذا لم تكن لديك شهادات فاكتب «لا شيء».</p>
+        <button id="submitBtn" type="submit">إرسال طلب الانضمام</button>
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+    <footer>© نادي أثر الجامعي — كل فكرة تصنع فرقاً</footer>
+  </main>
+<script>
+  // ضع Project URL و Publishable key الخاصين بمشروعك هنا قبل النشر.
+  const SUPABASE_URL = "ضع_رابط_المشروع_هنا";
+  const SUPABASE_PUBLISHABLE_KEY = "ضع_Publishable_Key_هنا";
+
+  const form = document.getElementById("joinForm");
+  const button = document.getElementById("submitBtn");
+  const statusBox = document.getElementById("status");
+
+  function showStatus(message, type) {
+    statusBox.textContent = message;
+    statusBox.className = "status show " + type;
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (SUPABASE_URL.includes("ضع_") || SUPABASE_PUBLISHABLE_KEY.includes("ضع_")) {
+      showStatus("لم يتم إعداد الاتصال بعد. أكمل إعداد رابط Supabase والمفتاح العام أولاً.", "err");
+      return;
+    }
+    if (!window.supabase) {
+      showStatus("تعذر تحميل مكتبة الاتصال. تحقق من اتصال الإنترنت ثم أعد المحاولة.", "err");
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = "جارٍ إرسال طلبك...";
+    statusBox.className = "status";
+
+    const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+    const payload = {
+      first_name: document.getElementById("first_name").value.trim(),
+      last_name: document.getElementById("last_name").value.trim(),
+      hobbies: document.getElementById("hobbies").value.trim(),
+      languages: document.getElementById("languages").value.trim(),
+      contribution: document.getElementById("contribution").value.trim(),
+      certificates: document.getElementById("certificates").value.trim()
+    };
+
+    try {
+      const { error } = await client.from("registrations").insert([payload]);
+      if (error) throw error;
+      form.reset();
+      showStatus("تم استلام طلبك بنجاح! شكراً لرغبتك في الانضمام إلى نادي أثر. سنراجع طلبك ونتواصل معك عند الحاجة.", "ok");
+    } catch (error) {
+      console.error(error);
+      showStatus("لم نتمكن من إرسال الطلب. قد تكون صلاحيات قاعدة البيانات غير مكتملة. حاول لاحقاً أو تواصل مع إدارة النادي.", "err");
+    } finally {
+      button.disabled = false;
+      button.textContent = "إرسال طلب الانضمام";
+    }
+  });
+</script>
+</body>
+</html>
